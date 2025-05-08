@@ -47,14 +47,15 @@ async function getSelectedItemData(itemId: number) {
   return itemData[0];
 }
 
+interface PageProps {
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
 export default async function Home({
   searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+}: PageProps) {
   const initialSummaryData = await getTrackedItemSummary();
-  const params = await searchParams;
-  const selectedItemId = params.selectedItem ? Number(params.selectedItem) : null;
+  const selectedItemId = searchParams.selectedItem ? Number(searchParams.selectedItem) : null;
   const selectedItemData = selectedItemId ? await getSelectedItemData(selectedItemId) : null;
 
   return (
