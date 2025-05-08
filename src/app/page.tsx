@@ -48,7 +48,7 @@ async function getSelectedItemData(itemId: number) {
 }
 
 type Props = {
-  params: { [key: string]: string | string[] | undefined };
+  params: Promise<{ [key: string]: string | string[] | undefined }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
