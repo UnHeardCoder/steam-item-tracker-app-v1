@@ -1,8 +1,8 @@
-import Steamitemtracker from '~/components/Steamitemtracker';
-import Background from "~/components/Background";
-import { db } from '~/drizzle/db';
-import { items, priceHistory } from '~/drizzle/schema';
-import { sql, min, max, eq } from 'drizzle-orm';
+import Background from "../components/Background";
+import Steamitemtracker from "../components/Steamitemtracker";
+import { db } from "../drizzle/db";
+import { items, priceHistory } from "../drizzle/schema";
+import { eq, sql, min, max } from "drizzle-orm";
 
 async function getTrackedItemSummary() {
   const trackedItemsSummary = await db
@@ -48,12 +48,10 @@ async function getSelectedItemData(itemId: number) {
 }
 
 interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function Home({
-  searchParams,
-}: PageProps) {
+export default async function Home({ searchParams }: PageProps) {
   const initialSummaryData = await getTrackedItemSummary();
   const selectedItemId = searchParams.selectedItem ? Number(searchParams.selectedItem) : null;
   const selectedItemData = selectedItemId ? await getSelectedItemData(selectedItemId) : null;
