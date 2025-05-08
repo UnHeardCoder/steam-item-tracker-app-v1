@@ -51,6 +51,7 @@ export default async function Home({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
+  params: { [key: string]: string | string[] | undefined };
 }) {
   const initialSummaryData = await getTrackedItemSummary();
   const selectedItemId = searchParams.selectedItem ? Number(searchParams.selectedItem) : null;
