@@ -182,18 +182,18 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
       {isMainPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-black/75" onClick={() => setIsMainPopupOpen(false)}></div>
-          <div className="bg-gray-900 p-6 rounded-3xl shadow-2xl z-10 w-[800px] max-w-[90%] max-h-[90vh] overflow-auto border-2 border-gray-600">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">Tracked Items</h2>
-              <div className="flex gap-2">
+          <div className="bg-gray-900 p-4 sm:p-6 rounded-3xl shadow-2xl z-10 w-[95%] sm:w-[800px] max-h-[90vh] overflow-auto border-2 border-gray-600">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">Tracked Items</h2>
+              <div className="flex gap-2 w-full sm:w-auto">
                 <button
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base flex-1 sm:flex-none"
                   onClick={() => setIsAddFormOpen(true)}
                 >
                   Add Item
                 </button>
                 <button
-                  className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base flex-1 sm:flex-none"
                   onClick={() => setIsMainPopupOpen(false)}
                 >
                   Close
@@ -202,7 +202,7 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
             </div>
 
             {/* Table of tracked items */}
-            <div className="overflow-x-auto overflow-y-auto max-h-[30vh] rounded-2xl border border-gray-700">
+            <div className="overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[60vh] rounded-2xl border border-gray-700">
               <table className="min-w-full divide-y divide-gray-700">
                 <thead className="bg-gray-800 sticky top-0 z-10">
                   {table.getHeaderGroups().map(headerGroup => (
@@ -210,7 +210,7 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
                       {headerGroup.headers.map(header => (
                         <th
                           key={header.id}
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                          className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
                         >
                           {flexRender(
                             header.column.columnDef.header,
@@ -226,12 +226,12 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
                     <tr
                       key={row.id}
                       className={`${index % 2 === 0 ? 'bg-gray-800/50' : 'bg-gray-900/50'} cursor-pointer hover:bg-indigo-900/30 transition-colors`}
-                      onClick={() => handleRowClick(row.original.db_item_id)} // Use original db_item_id
+                      onClick={() => handleRowClick(row.original.db_item_id)}
                     >
                       {row.getVisibleCells().map(cell => (
                         <td
                           key={cell.id}
-                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-300"
+                          className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-300"
                         >
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
@@ -244,19 +244,19 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
 
             {/* Add item form popup */}
             {isAddFormOpen && (
-              <div className="fixed inset-0 flex items-center justify-center z-[60]"> {/* Increased z-index */}
+              <div className="fixed inset-0 flex items-center justify-center z-[60]">
                 <div className="absolute inset-0 bg-black/75" onClick={() => setIsAddFormOpen(false)}></div>
-                <div className="bg-gray-900 p-6 rounded-3xl shadow-2xl z-10 w-[500px] max-w-[90%] border-2 border-gray-600">
-                  <h3 className="text-xl font-bold text-white mb-4">Add New Item to Track</h3>
+                <div className="bg-gray-900 p-4 sm:p-6 rounded-3xl shadow-2xl z-10 w-[95%] sm:w-[500px] border-2 border-gray-600">
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Add New Item to Track</h3>
 
                   <div className="mb-4">
-                    <label className="block text-gray-400 text-sm font-bold mb-2" htmlFor="itemName">
+                    <label className="block text-gray-400 text-xs sm:text-sm font-bold mb-2" htmlFor="itemName">
                       Market Hash Name
                     </label>
                     <input
                       id="itemName"
                       type="text"
-                      className="shadow appearance-none border border-gray-700 rounded-lg w-full py-2 px-3 bg-gray-800 text-gray-300 leading-tight focus:outline-none focus:border-indigo-500"
+                      className="shadow appearance-none border border-gray-700 rounded-lg w-full py-2 px-3 bg-gray-800 text-gray-300 text-sm sm:text-base leading-tight focus:outline-none focus:border-indigo-500"
                       placeholder="e.g. AK-47 | Redline (Field-Tested)"
                       value={newItemName}
                       onChange={(e) => setNewItemName(e.target.value)}
@@ -264,13 +264,13 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
                   </div>
 
                   <div className="mb-6">
-                    <label className="block text-gray-400 text-sm font-bold mb-2" htmlFor="steamAppId">
+                    <label className="block text-gray-400 text-xs sm:text-sm font-bold mb-2" htmlFor="steamAppId">
                       Steam AppID
                     </label>
                     <input
                       id="steamAppId"
-                      type="number" // Changed to number
-                      className="shadow appearance-none border border-gray-700 rounded-lg w-full py-2 px-3 bg-gray-800 text-gray-300 leading-tight focus:outline-none focus:border-indigo-500"
+                      type="number"
+                      className="shadow appearance-none border border-gray-700 rounded-lg w-full py-2 px-3 bg-gray-800 text-gray-300 text-sm sm:text-base leading-tight focus:outline-none focus:border-indigo-500"
                       placeholder="e.g. 730 for CS:GO"
                       value={newItemAppId}
                       onChange={(e) => setNewItemAppId(e.target.value)}
@@ -279,13 +279,13 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
 
                   <div className="flex justify-end gap-2">
                     <button
-                      className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base"
                       onClick={() => setIsAddFormOpen(false)}
                     >
                       Cancel
                     </button>
                     <button
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base"
                       onClick={handleAddItem}
                     >
                       Add Item

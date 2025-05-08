@@ -9,8 +9,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
-  ChartOptions
+  Legend
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 
@@ -63,57 +62,79 @@ export default function PriceHistoryChart({ data, chartType = 'line' }: PriceHis
     ],
   };
 
-  const options: ChartOptions<'line' | 'bar'> = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: true,
-        position: 'top' as const,
-        labels: {
-          color: 'rgb(156, 163, 175)', // text-gray-400
-        },
+        display: false,
       },
       tooltip: {
-        mode: 'index',
+        mode: 'index' as const,
         intersect: false,
+        backgroundColor: 'rgba(17, 24, 39, 0.9)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(75, 85, 99, 1)',
+        borderWidth: 1,
+        padding: 10,
+        displayColors: false,
         callbacks: {
-          label: function(context) {
-            return `CAD$ ${context.parsed.y.toFixed(2)}`;
+          label: function(context: import('chart.js').TooltipItem<'line'> | import('chart.js').TooltipItem<'bar'>) {
+            return `Price: CAD$ ${context.parsed.y.toFixed(2)}`;
           }
         }
-      },
+      }
     },
     scales: {
       x: {
         grid: {
-          color: 'rgba(75, 85, 99, 0.2)', // gray-600 with opacity
+          color: 'rgba(75, 85, 99, 0.2)',
         },
         ticks: {
-          color: 'rgb(156, 163, 175)', // text-gray-400
-        },
+          color: '#9CA3AF',
+          maxRotation: 45,
+          minRotation: 45,
+          font: {
+            size: 10
+          }
+        }
       },
       y: {
         grid: {
-          color: 'rgba(75, 85, 99, 0.2)', // gray-600 with opacity
+          color: 'rgba(75, 85, 99, 0.2)',
         },
         ticks: {
-          color: 'rgb(156, 163, 175)', // text-gray-400
-          callback: function(value) {
-            return `CAD$ ${value}`;
+          color: '#9CA3AF',
+          font: {
+            size: 10
+          },
+          callback: function(tickValue: string | number) {
+            const num = typeof tickValue === 'number' ? tickValue : parseFloat(tickValue);
+            return 'CAD$ ' + (isNaN(num) ? tickValue : num.toFixed(2));
           }
-        },
-      },
+        }
+      }
     },
     interaction: {
-      mode: 'nearest',
-      axis: 'x',
+      mode: 'nearest' as const,
+      axis: 'x' as const,
       intersect: false
     },
+    elements: {
+      line: {
+        tension: 0.4
+      },
+      point: {
+        radius: 2,
+        hitRadius: 10,
+        hoverRadius: 4
+      }
+    }
   };
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full relative">
       {data.length > 0 ? (
         chartType === 'line' ? (
           <Line data={chartData} options={options} />
@@ -121,7 +142,7 @@ export default function PriceHistoryChart({ data, chartType = 'line' }: PriceHis
           <Bar data={chartData} options={options} />
         )
       ) : (
-        <div className="h-full flex items-center justify-center text-gray-500">
+        <div className="h-full flex items-center justify-center text-gray-500 text-sm">
           No price history data available
         </div>
       )}
