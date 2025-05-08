@@ -6,13 +6,22 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:seed": "tsx src/main.ts",
+    "price-updates": "tsx src/scripts/runPriceUpdates.ts"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
+    "@types/node-cron": "^3.0.11",
+    "chart.js": "^4.4.9",
     "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.43.1",
     "next": "15.3.1",
+    "node-cron": "^3.0.3",
+    "pg": "^8.15.6",
+    "postgres": "^3.4.5",
     "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
@@ -21,9 +30,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5"
   }
 }
