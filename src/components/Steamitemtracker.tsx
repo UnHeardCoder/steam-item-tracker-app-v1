@@ -288,8 +288,8 @@ export default function Steamitemtracker({
               </div>
 
               {/* Chart Container */}
-              <div className="h-[250px] sm:h-[300px] px-4 sm:px-0 flex justify-center">
-                <div className="w-full max-w-xs sm:max-w-full h-full">
+              <div className="h-[220px] sm:h-[300px] px-4 sm:px-0 flex justify-center">
+                <div className="w-full h-full">
                   <PriceHistoryChart data={priceHistoryData} chartType={chartType} />
                 </div>
               </div>

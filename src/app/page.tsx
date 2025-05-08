@@ -59,12 +59,12 @@ export default async function Page(props: Props) {
   const selectedItemData = selectedItemId ? await getSelectedItemData(selectedItemId) : null;
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden px-2 sm:px-4 md:px-8">
+    <div className="relative min-h-screen overflow-x-hidden px-2 sm:px-4 md:px-8 pt-4">
       <div className="absolute inset-0">
         <Background />
       </div>
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="pointer-events-auto m-4">
+      <div className="absolute inset-0 flex items-start sm:items-center justify-start sm:justify-center pointer-events-none">
+        <div className="pointer-events-auto m-4 mt-4 w-full flex justify-center">
           <Steamitemtracker
             initialSummaryData={initialSummaryData}
             selectedItemData={selectedItemData}
