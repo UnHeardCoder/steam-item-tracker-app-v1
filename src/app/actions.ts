@@ -5,8 +5,64 @@ import { items, priceHistory } from '~/drizzle/schema';
 import { revalidatePath } from 'next/cache';
 import { eq, desc } from 'drizzle-orm';
 
+async function validateSteamItem(market_hash_name: string, steam_appid: number) {
+  try {
+    const response = await fetch(
+      `https://steamcommunity.com/market/priceoverview/?appid=${steam_appid}&currency=20&market_hash_name=${encodeURIComponent(market_hash_name)}`,
+      {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+      }
+    );
+
+    if (!response.ok) {
+      return { valid: false, error: 'Item not found in Steam Market' };
+    }
+
+    const data = await response.json();
+    
+    // Check if we got a valid response with price data
+    if (!data.success || (!data.lowest_price && !data.median_price)) {
+      return { valid: false, error: 'Item not found in Steam Market' };
+    }
+
+    // Additional validation to ensure the item exists
+    if (data.lowest_price === '0' && data.median_price === '0') {
+      return { valid: false, error: 'Item not found in Steam Market' };
+    }
+
+    // Check if the market_hash_name matches exactly
+    const searchResponse = await fetch(
+      `https://steamcommunity.com/market/listings/${steam_appid}/${encodeURIComponent(market_hash_name)}`,
+      {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+      }
+    );
+
+    if (!searchResponse.ok) {
+      return { valid: false, error: 'Item not found in Steam Market' };
+    }
+
+    return { valid: true };
+  } catch (error) {
+    console.error('Error validating Steam item:', error);
+    return { valid: false, error: 'Failed to validate item' };
+  }
+}
+
 export async function addNewItem(newItem: { market_hash_name: string; steam_appid: number }) {
   try {
+    // First validate the item exists in Steam Market
+    const validation = await validateSteamItem(newItem.market_hash_name, newItem.steam_appid);
+    
+    if (!validation.valid) {
+      return { success: false, error: validation.error };
+    }
+
+    // If validation passes, add the item to the database
     await db.insert(items).values(newItem);
     revalidatePath('/'); // Revalidate the home page
     return { success: true };
