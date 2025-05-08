@@ -47,7 +47,7 @@ async function getSelectedItemData(itemId: number) {
   return itemData[0];
 }
 
-export default async function Home({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
