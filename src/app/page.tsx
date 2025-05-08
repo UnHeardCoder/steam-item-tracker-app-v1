@@ -49,12 +49,13 @@ async function getSelectedItemData(itemId: number) {
 
 type Props = {
   params: { [key: string]: string | string[] | undefined };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function Page(props: Props) {
   const initialSummaryData = await getTrackedItemSummary();
-  const selectedItemId = props.searchParams.selectedItem ? Number(props.searchParams.selectedItem) : null;
+  const searchParams = await props.searchParams;
+  const selectedItemId = searchParams.selectedItem ? Number(searchParams.selectedItem) : null;
   const selectedItemData = selectedItemId ? await getSelectedItemData(selectedItemId) : null;
 
   return (
