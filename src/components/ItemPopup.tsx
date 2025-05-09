@@ -46,6 +46,7 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
 
   const [tableDisplayData, setTableDisplayData] = useState<TableDisplayItem[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Effect to process initialData when it's passed or updated
   useEffect(() => {
@@ -70,6 +71,17 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
     }
   }, [initialData]);
 
+  // Filter data based on search query
+  const filteredData = useMemo(() => {
+    if (!searchQuery.trim()) return tableDisplayData;
+    
+    const query = searchQuery.toLowerCase();
+    return tableDisplayData.filter(item => 
+      item.market_hash_name.toLowerCase().includes(query) ||
+      item.tracked_dates_display.toLowerCase().includes(query)
+    );
+  }, [tableDisplayData, searchQuery]);
+
   // Setup table columns
   const columnHelper = createColumnHelper<TableDisplayItem>();
   const columns = useMemo(() => [
@@ -86,7 +98,7 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
 
   // Initialize table
   const table = useReactTable({
-    data: tableDisplayData, // Use processed data
+    data: filteredData, // Use filtered data instead of tableDisplayData
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -202,6 +214,27 @@ export default function ItemPopup({ initialData, onAddItemSubmit, onPriceUpdate,
             </div>
 
             {/* Table of tracked items */}
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search items..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-indigo-500"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
             <div className="overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[60vh] rounded-2xl border border-gray-700">
               <table className="min-w-full divide-y divide-gray-700">
                 <thead className="bg-gray-800 sticky top-0 z-10">
