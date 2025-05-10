@@ -28,7 +28,6 @@ export const metadata: Metadata = {
     title: "Steam Item Tracker",
     description: "Track and monitor your Steam items' prices and market trends in real-time",
   },
-  viewport: "width=device-width, initial-scale=1",
   robots: "noindex, nofollow",
   icons: {
     icon: [
@@ -39,6 +38,11 @@ export const metadata: Metadata = {
       { url: '/apple-icon.png' },
     ],
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
