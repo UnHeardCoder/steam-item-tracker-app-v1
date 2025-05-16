@@ -1,3 +1,5 @@
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/UnHeardCoder/steam-item-tracker-app-v1?utm_source=oss&utm_medium=github&utm_campaign=UnHeardCoder%2Fsteam-item-tracker-app-v1&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
 # Steam Item Tracker
 
 A Next.js application that helps you track and monitor Steam items' prices and market trends in real-time.
